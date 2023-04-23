@@ -1,17 +1,4 @@
-const Course = (props) => {
-    const courseList = props.courses
-
-    return (
-        <div>
-            {courseList.map(course =>
-                < div>
-                    < h1> {course.name}</h1>
-                    {course.parts.map(part => <p>{part.name} {part.exercises}</p>)}
-                    <b>total of {course.parts.map(part => part.exercises).reduce((x, y) => x + y)} exercises</b>
-                </div>)}
-        </div>
-    )
-}
+import Courses from "./components/Courses";
 const App = () => {
     const courses = [
         {
@@ -58,7 +45,7 @@ const App = () => {
         }
     ]
 
-    return <Course courses={courses}/>
+    return <Courses courses={courses}/>
 }
 
 export default App;
