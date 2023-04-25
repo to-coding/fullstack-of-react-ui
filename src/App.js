@@ -44,7 +44,7 @@ const App = () => {
     const hook = () => {
         console.log('effect')
         noteService
-            .getAll('http://localhost:3001/notes')
+            .getAll('http://localhost:3001/api/notes')
             .then(initialNotes => {
                 console.log('promise fulfilled')
                 setNotes(initialNotes)
