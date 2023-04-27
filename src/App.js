@@ -4,6 +4,7 @@ import noteService from './services/notes'
 import Notification from './components/Notification'
 import loginService from './services/login'
 import LoginForm from "./components/LoginForm";
+import Togglable from "./components/Togglable";
 
 const Footer = () => {
     const footerStyle = {
@@ -27,7 +28,6 @@ const App = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
-    const [loginVisible, setLoginVisible] = useState(false)
 
     const toggleImportanceOf = id => {
         const note = notes.find(n => n.id === id)
@@ -115,24 +115,15 @@ const App = () => {
     }
 
     const loginForm = () =>{
-        const hideWhenVisible = {display: loginVisible ? 'none' : ''}
-        const showWhenVisible = {display: loginVisible ? '' : 'none'}
-
         return(
-            <div>
-                <div style={hideWhenVisible}>
-                    <button onClick={()=>setLoginVisible(true)}>log in</button>
-                </div>
-                <div style={showWhenVisible}>
-                    <LoginForm
-                    username={username}
-                    password={password}
-                    handleSubmit={handleLogin}
-                    handleUsernameChange={({target}) => setUsername(target.value)}
-                    handlePasswordChange={({target}) => setPassword(target.value)}/>
-                    <button onClick={() => setLoginVisible(false)}>cancel</button>
-                </div>
-            </div>
+            <Togglable buttonLabel='log-in'>
+                <LoginForm
+                username={username}
+                password={password}
+                handleSubmit={handleLogin}
+                handleUsernameChange={({target}) => setUsername(target.value)}
+                handlePasswordChange={({target}) => setPassword(target.value)}/>
+            </Togglable>
         )
     }
 
