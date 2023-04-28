@@ -24,3 +24,5 @@ yarn-error.log*
 
 # lint
 .eslintrc.js
+
+.idea
