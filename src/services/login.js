@@ -6,8 +6,4 @@ const login = async credentials => {
     return response.data
 }
 
-const logout = () => {
-    window.localStorage.removeItem('loggedNoteAppUser')
-}
-
 export default { login }
