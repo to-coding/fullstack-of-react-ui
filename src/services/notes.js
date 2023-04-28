@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios'
 const baseUrl = '/api/notes'
 
 let token = null
@@ -20,14 +20,14 @@ const getAll = () => {
 
 const create = async newObject => {
     const config = {
-        headers: {Authorization: token}
+        headers: { Authorization: token }
     }
     const response = await axios.post(baseUrl, newObject, config)
     return response.data
 }
 
 const update = (id, newObject) => {
-    let request = axios.put(`${baseUrl}/${id}`, newObject);
+    let request = axios.put(`${baseUrl}/${id}`, newObject)
     return request.then(response => response.data)
 }
 

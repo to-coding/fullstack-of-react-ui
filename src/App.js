@@ -1,11 +1,11 @@
 import Note from './components/Note'
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from 'react'
 import noteService from './services/notes'
 import Notification from './components/Notification'
 import loginService from './services/login'
-import LoginForm from "./components/LoginForm";
-import Togglable from "./components/Togglable";
-import NoteForm from "./components/NoteForm"
+import LoginForm from './components/LoginForm'
+import Togglable from './components/Togglable'
+import NoteForm from './components/NoteForm'
 
 const Footer = () => {
     const footerStyle = {
@@ -33,7 +33,7 @@ const App = () => {
 
     const toggleImportanceOf = id => {
         const note = notes.find(n => n.id === id)
-        const changedNote = {...note, important: !note.important}
+        const changedNote = { ...note, important: !note.important }
 
         noteService
             .update(id, changedNote)
@@ -72,7 +72,7 @@ const App = () => {
     const handleLogin = async (event) => {
         event.preventDefault()
         try {
-            const user = await loginService.login({username, password})
+            const user = await loginService.login({ username, password })
 
             window.localStorage.setItem(
                 'loggedNoteAppUser', JSON.stringify(user)
@@ -103,8 +103,8 @@ const App = () => {
                     username={username}
                     password={password}
                     handleSubmit={handleLogin}
-                    handleUsernameChange={({target}) => setUsername(target.value)}
-                    handlePasswordChange={({target}) => setPassword(target.value)}/>
+                    handleUsernameChange={({ target }) => setUsername(target.value)}
+                    handlePasswordChange={({ target }) => setPassword(target.value)}/>
             </Togglable>
         )
     }
@@ -145,7 +145,7 @@ const App = () => {
             </ul>
             <Footer/>
         </div>
-    );
+    )
 }
 
-export default App;
+export default App
