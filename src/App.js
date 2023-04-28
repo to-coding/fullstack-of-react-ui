@@ -23,7 +23,6 @@ const Footer = () => {
 }
 const App = () => {
     const [notes, setNotes] = useState(null)
-    const [newNote, setNewNote] = useState('')
     const [showAll, setShowAll] = useState(true)
     const [errorMessage, setErrorMessage] = useState('some error happened...')
     const [username, setUsername] = useState('')
@@ -88,26 +87,6 @@ const App = () => {
         }
     }
 
-    const handleNoteChange = (event) => {
-        console.log(event.target.value)
-        setNewNote(event.target.value)
-    }
-    const addNote = (event) => {
-        event.preventDefault()
-        const noteObject = {
-            content: newNote,
-            date: new Date().toISOString(),
-            important: Math.random() < 0.5,
-        }
-        noteService
-            .create(noteObject)
-            .then(returnedNote => {
-                console.log('returned Note:', returnedNote)
-                setNotes(notes.concat(returnedNote))
-                setNewNote('')
-            })
-    }
-
     const notesToShow = showAll
         ? notes
         : notes.filter(note => note.important)
@@ -128,12 +107,14 @@ const App = () => {
         )
     }
 
+    const addNote = (noteObject) => {
+        noteService
+            .create(noteObject)
+            .then(returnedNote => setNotes(notes.concat(returnedNote)))
+    }
     const noteForm = () => (
         <Togglable buttonLabel="new note">
-            <NoteForm
-                onSubmit={addNote}
-                value={newNote}
-                handleChange={handleNoteChange}/>
+            <NoteForm createNote={addNote}/>
         </Togglable>
     )
     return (
