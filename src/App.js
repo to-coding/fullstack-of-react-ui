@@ -5,6 +5,7 @@ import Notification from './components/Notification'
 import loginService from './services/login'
 import LoginForm from "./components/LoginForm";
 import Togglable from "./components/Togglable";
+import NoteForm from "./components/NoteForm"
 
 const Footer = () => {
     const footerStyle = {
@@ -36,8 +37,8 @@ const App = () => {
         noteService
             .update(id, changedNote)
             .then(returnedNote => {
-            setNotes(notes.map(note => note.id !== id ? note : returnedNote))
-        })
+                setNotes(notes.map(note => note.id !== id ? note : returnedNote))
+            })
             .catch(error => {
                 setErrorMessage(`Note '${note.content}' was already deleted from server`)
                 setTimeout(() => {
@@ -59,17 +60,17 @@ const App = () => {
     }
 
     useEffect(hook, [])
-    useEffect(()=>{
+    useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedNoteAppUser')
-        if (loggedUserJSON){
+        if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON)
             setUser(user)
             noteService.setToken(user.token)
         }
-    },[])
+    }, [])
     const handleLogin = async (event) => {
         event.preventDefault()
-        try{
+        try {
             const user = await loginService.login({username, password})
 
             window.localStorage.setItem(
@@ -79,9 +80,9 @@ const App = () => {
             setUser(user)
             setUsername('')
             setPassword('')
-        } catch (exception){
+        } catch (exception) {
             setErrorMessage('Wrong credentials')
-            setTimeout(()=>{
+            setTimeout(() => {
                 setErrorMessage(null)
             }, 5000)
         }
@@ -114,30 +115,32 @@ const App = () => {
         return null
     }
 
-    const loginForm = () =>{
-        return(
-            <Togglable buttonLabel='log-in'>
+    const loginForm = () => {
+        return (
+            <Togglable buttonLabel='login'>
                 <LoginForm
-                username={username}
-                password={password}
-                handleSubmit={handleLogin}
-                handleUsernameChange={({target}) => setUsername(target.value)}
-                handlePasswordChange={({target}) => setPassword(target.value)}/>
+                    username={username}
+                    password={password}
+                    handleSubmit={handleLogin}
+                    handleUsernameChange={({target}) => setUsername(target.value)}
+                    handlePasswordChange={({target}) => setPassword(target.value)}/>
             </Togglable>
         )
     }
 
     const noteForm = () => (
-        <form onSubmit={addNote}>
-            <input value={newNote} onChange={handleNoteChange}/>
-            <button type="submit">save</button>
-        </form>
+        <Togglable buttonLabel="new note">
+            <NoteForm
+                onSubmit={addNote}
+                value={newNote}
+                handleChange={handleNoteChange}/>
+        </Togglable>
     )
     return (
         <div>
             <h1>Notes</h1>
             <Notification message={errorMessage}/>
-            {user === null ? loginForm():
+            {user === null ? loginForm() :
                 <div>
                     <p>{user.name} logged-in</p>
                     {noteForm()}
