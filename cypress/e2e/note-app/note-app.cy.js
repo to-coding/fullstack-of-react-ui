@@ -19,20 +19,12 @@ describe('Note app', function () {
     })
 
     it('user can login', function () {
-        cy.contains('login').click()
-        cy.get('#username').type('sece1024')
-        cy.get('#password').type('123456')
-        cy.get('#login-btn').click()
-
-        cy.contains('HGX logged-in')
+        cy.login({ username: 'sece1024', password: '123456' })
     })
 
     describe('when logged in', function () {
         beforeEach(function (){
-            cy.contains('login').click()
-            cy.get('#username').type('sece1024')
-            cy.get('#password').type('123456')
-            cy.get('#login-btn').click()
+            cy.login({ username: 'sece1024', password: '123456' })
         })
         it('a new note can be created', function () {
             cy.contains('new note').click()
@@ -43,9 +35,10 @@ describe('Note app', function () {
 
         describe('add a note exists', function () {
             beforeEach(function (){
-                cy.contains('new note').click()
-                cy.get('input').type('another note cypress')
-                cy.contains('save').click()
+                cy.createNote({
+                    content: 'another note cypress',
+                    important: false
+                })
             })
 
             it('it can be made important', function () {
