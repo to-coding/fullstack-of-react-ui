@@ -59,13 +59,18 @@ describe('Note app', function () {
         })
     })
 
-    it.only('login fails with wrong password', function (){
+    it('login fails with wrong password', function (){
         cy.contains('login').click()
         cy.get('#username').type('sece1024')
         cy.get('#password').type('12345')
         cy.get('#login-btn').click()
 
         cy.contains('Wrong credentials')
-        cy.get('.error').contains('Wrong credentials')
+        cy.get('.error')
+            .should('contain', 'Wrong credentials')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
+            .and('have.css', 'border-style', 'solid')
+
+        cy.get('html').should('not.contain', 'HGX logged-in')
     })
 })
